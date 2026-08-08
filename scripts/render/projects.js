@@ -1,16 +1,18 @@
 /* ============================================================
-   RENDER PROJECTS, cards, category filter and card interactions.
-   The icon maps below are view-only decoration for the cards.
+   RENDER PROJECTS, cards, category filter, view toggle and
+   card interactions. The icon maps below are view-only
+   decoration for the cards.
    ============================================================ */
 
 import { $, $$, t, esc } from '../dom.js';
 import { locale } from '../locale.js';
-import { state, tabFor } from '../state.js';
+import { state, tabFor, setView } from '../state.js';
 import { PROJECTS } from '../../data/portfolio-data.js';
 import { techIconSrc } from '../tech-icons.js';
 import { openImageModal } from '../modals/image.js';
 import { revealIn } from '../ui/reveal.js';
 import { wireImageLoaders } from '../ui/image-loader.js';
+import { initCarousel } from '../ui/carousel.js';
 
 const CATEGORY_ICONS = {
   library: '📦',
@@ -30,12 +32,24 @@ function cardTitle(p) {
   return (p.nameL10n && p.nameL10n[locale.lang]) || p.name;
 }
 
-function techTag(label) {
+/* In the carousel the tags render icon-only (no labels): a row of text
+   chips wraps at different widths and makes the slides unequal heights,
+   while a single line of 15px icons fits everywhere. Tags without an icon
+   are dropped entirely. The title keeps the name for hover / screen
+   readers. The grid keeps the full chip (icon + label). */
+function techTag(label, iconOnly = false) {
   const icon = techIconSrc(label);
+  if (iconOnly) {
+    if (!icon) return '';
+    return `<span class="tech-tag" title="${esc(label)}"><img src="${esc(icon)}" alt="" loading="lazy"></span>`;
+  }
   return `<span class="tech-tag">${icon ? `<img src="${esc(icon)}" alt="" loading="lazy">` : ''}${esc(label)}</span>`;
 }
 
-function projectCard(p, index) {
+/* One project card. `carousel` adds the slide class and drops the scroll
+   reveal attributes — the carousel stage positions the slides itself and
+   a reveal transform would fight the coverflow transforms. */
+function projectCard(p, index, carousel = false) {
   const d = p.desc[locale.lang];
   const title = cardTitle(p);
   const icons = CATEGORY_ICONS[p.category] || '📁';
@@ -55,8 +69,10 @@ function projectCard(p, index) {
      index would put the last one a second behind, and a card scrolled into
      view on its own would just sit there waiting. */
   const delay = (index % 3) * 60;
+  const slideClass = carousel ? ' carousel-slide' : '';
+  const reveal = carousel ? '' : ` data-reveal="fade-up" data-reveal-delay="${delay}"`;
   return `
-    <article class="project-card" data-category="${p.category}" data-id="${p.id}" data-reveal="fade-up" data-reveal-delay="${delay}">
+    <article class="project-card${slideClass}" data-category="${p.category}" data-id="${p.id}"${reveal}>
       <div class="card-media">
         <button type="button" class="card-media-btn" data-img-src="${esc(p.image)}" data-img-alt="${esc(title)}" aria-label="${esc(title)}, ${esc(t('image.zoomAria'))}">
           <img src="${esc(smallImg)}" alt="${esc(title)}" loading="lazy">
@@ -75,10 +91,35 @@ function projectCard(p, index) {
           <button class="card-tab ${activeTab === 'technical' ? 'active' : ''}" data-tab="technical" type="button" role="tab" id="tab-technical-${p.id}" aria-controls="desc-${p.id}" aria-selected="${activeTab === 'technical'}" tabindex="${activeTab === 'technical' ? 0 : -1}">${esc(t('tab.technical'))}</button>
         </div>
         <p class="card-desc" id="desc-${p.id}" role="tabpanel" aria-labelledby="tab-${activeTab}-${p.id}" tabindex="0">${esc(d[activeTab])}</p>
-        <div class="card-tech">${p.tech.map(techTag).join('')}</div>
+        <div class="card-tech">${p.tech.map((label) => techTag(label, carousel)).join('')}</div>
         <div class="card-links">${links}</div>
       </div>
     </article>`;
+}
+
+/* Carousel shell: the coverflow stage plus the nav row. The dots are
+   created by scripts/ui/carousel.js, which finds the stage, dots and
+   arrows by class inside the root it is given (the skills section builds
+   the same shell). The slides carry data-state (active / prev / next /
+   hidden-*) which the CSS turns into the 3D positions, exactly like the CV
+   repo's index page. */
+function carouselShell(projects) {
+  const slides = projects.map((p, i) => projectCard(p, i, true)).join('');
+  return `
+    <div class="projects-carousel">
+      <div class="carousel-stage" role="region" aria-label="${esc(t('carousel.stageAria'))}" tabindex="0">
+        ${slides}
+      </div>
+      <div class="carousel-nav" role="group" aria-label="${esc(t('carousel.navAria'))}">
+        <button type="button" class="carousel-arrow carousel-prev" aria-label="${esc(t('carousel.prevAria'))}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="carousel-dots" data-label-key="carousel.dotLabel" role="group" aria-label="${esc(t('carousel.dotsAria'))}"></div>
+        <button type="button" class="carousel-arrow carousel-next" aria-label="${esc(t('carousel.nextAria'))}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>`;
 }
 
 export function renderProjects() {
@@ -88,12 +129,18 @@ export function renderProjects() {
     ? PROJECTS
     : PROJECTS.filter((p) => p.category === state.filter);
 
-  grid.innerHTML = filtered.map(projectCard).join('');
+  const carousel = state.view === 'carousel';
+  grid.classList.toggle('is-carousel', carousel);
+  grid.innerHTML = carousel
+    ? carouselShell(filtered)
+    : filtered.map((p, i) => projectCard(p, i)).join('');
+
   revealIn(grid);
   // New <img> nodes each render (filter change), so the loaders are wired
   // here; the load/error listeners installed by installImageLoaders settle
   // them. Language switches patch text in place and need no rewiring.
   wireImageLoaders(grid);
+  if (carousel) initCarousel(grid);
 }
 
 /* Language switch: patch the text in place instead of rebuilding 21 cards.
@@ -126,6 +173,18 @@ export function updateProjectsText() {
     media.setAttribute('aria-label', `${title}, ${t('image.zoomAria')}`);
     $('img', media).alt = title;
   });
+
+  /* The carousel chrome (dots, stage, nav labels) is baked at render time,
+     so a language switch must refresh it too, not just the card text. */
+  if (grid.classList.contains('is-carousel')) {
+    const stage = $('.carousel-stage', grid);
+    if (stage) stage.setAttribute('aria-label', t('carousel.stageAria'));
+    const nav = $('.carousel-nav', grid);
+    if (nav) nav.setAttribute('aria-label', t('carousel.navAria'));
+    $$('.carousel-dot', grid).forEach((dot, i) => {
+      dot.setAttribute('aria-label', `${t('carousel.dotLabel')} ${i + 1}`);
+    });
+  }
 }
 
 export function applyFilter(filter) {
@@ -194,6 +253,29 @@ export function initProjectCards() {
     e.preventDefault();
     next.focus();
     selectTab(next);
+  });
+
+  /* Carousel / grid view toggle. state.view is the source of truth (it is
+     persisted, so the toggle's active state may differ from the initial
+     aria-pressed in the markup on a returning visit). Scoped to this
+     section's toolbar — the skills section has a toggle of its own. */
+  // The skills toolbar reuses the .projects-toolbar layout class, so it has
+  // to be excluded explicitly here.
+  const viewButtons = $$('.view-toggle-btn', $('.projects-toolbar:not(.skills-toolbar)'));
+  const syncViewToggle = () => {
+    viewButtons.forEach((btn) => {
+      const active = btn.dataset.view === state.view;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active);
+    });
+  };
+  syncViewToggle();
+  viewButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      setView(btn.dataset.view);
+      syncViewToggle();
+      renderProjects();
+    });
   });
 
   $$('.filter-chip').forEach((chip) => {

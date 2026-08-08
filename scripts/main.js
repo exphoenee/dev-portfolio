@@ -16,6 +16,7 @@ import { installImageLoaders } from './ui/image-loader.js';
 
 import { renderAll, applyTranslations } from './render/translate.js';
 import { initProjectCards } from './render/projects.js';
+import { initSkillsView } from './render/skills.js';
 
 import { initEscapeHandling } from './modals/modal.js';
 import { loadTurnstileScript } from './modals/turnstile.js';
@@ -45,11 +46,34 @@ function initBackToTop() {
   onScroll();
 }
 
+/* The switcher is a plain row of buttons on desktop and a dropdown below
+   768px (CSS decides which shape shows). The open/close wiring is harmless
+   on desktop: the trigger is display: none there, so nothing can toggle the
+   class and the menu is laid out inline regardless of it. */
 function initLangSwitcher() {
+  const switcher = $('.lang-switcher');
+  const toggle = $('#lang-toggle');
+  const close = () => {
+    switcher.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle.addEventListener('click', () => {
+    const open = switcher.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', (e) => {
+    if (!switcher.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
+  });
+
   $$('.lang-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       locale.setLang(btn.dataset.lang);
       applyTranslations();
+      close();
     });
   });
 }
@@ -89,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#theme-toggle').addEventListener('click', toggleTheme);
   initLangSwitcher();
   initProjectCards();
+  initSkillsView();
   initNavbar();
   initScrollSpy();
   initBackToTop();

@@ -50,6 +50,9 @@ function applyStaticLabels() {
     }
   });
   $$('.lang-btn').forEach((btn) => btn.classList.toggle('active', btn.dataset.lang === locale.lang));
+  // The mobile dropdown trigger shows the current language code.
+  const current = $('.lang-current-code');
+  if (current) current.textContent = locale.lang.toUpperCase();
   $$('[data-i18n-placeholder]').forEach((el) => {
     el.placeholder = t(el.dataset.i18nPlaceholder);
   });

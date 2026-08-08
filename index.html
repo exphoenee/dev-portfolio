@@ -145,13 +145,24 @@
       </nav>
 
       <div class="nav-controls">
+        <!-- One markup, two shapes: on desktop the six buttons sit in a row,
+             below 768px the row would push the hamburger off screen, so CSS
+             collapses it into a dropdown — the trigger below is hidden on
+             desktop and the menu becomes a popup. The language names only
+             show inside that popup. -->
         <div class="lang-switcher" role="group" aria-label="Language">
-          <button class="lang-btn" data-lang="en" title="English" aria-label="English">EN</button>
-          <button class="lang-btn" data-lang="de" title="Deutsch" aria-label="Deutsch">DE</button>
-          <button class="lang-btn" data-lang="hu" title="Magyar" aria-label="Magyar">HU</button>
-          <button class="lang-btn" data-lang="fr" title="Français" aria-label="Français">FR</button>
-          <button class="lang-btn" data-lang="it" title="Italiano" aria-label="Italiano">IT</button>
-          <button class="lang-btn" data-lang="es" title="Español" aria-label="Español">ES</button>
+          <button type="button" class="lang-current" id="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu" aria-label="Language">
+            <span class="lang-current-code">EN</span>
+            <svg class="lang-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="lang-menu" id="lang-menu">
+            <button class="lang-btn" data-lang="en" title="English" aria-label="English"><span class="lang-code">EN</span><span class="lang-name">English</span></button>
+            <button class="lang-btn" data-lang="de" title="Deutsch" aria-label="Deutsch"><span class="lang-code">DE</span><span class="lang-name">Deutsch</span></button>
+            <button class="lang-btn" data-lang="hu" title="Magyar" aria-label="Magyar"><span class="lang-code">HU</span><span class="lang-name">Magyar</span></button>
+            <button class="lang-btn" data-lang="fr" title="Français" aria-label="Français"><span class="lang-code">FR</span><span class="lang-name">Français</span></button>
+            <button class="lang-btn" data-lang="it" title="Italiano" aria-label="Italiano"><span class="lang-code">IT</span><span class="lang-name">Italiano</span></button>
+            <button class="lang-btn" data-lang="es" title="Español" aria-label="Español"><span class="lang-code">ES</span><span class="lang-name">Español</span></button>
+          </div>
         </div>
 
         <a class="btn-cv" href="https://viktor.bozzay.online" target="_blank" rel="noopener" data-i18n="nav.cv">CV</a>
@@ -220,13 +231,29 @@
         </div>
       </div>
 
-      <div class="filters" role="group" aria-label="Filter projects">
-        <button class="filter-chip active" data-filter="all" aria-pressed="true" data-i18n="filters.all">All</button>
-        <button class="filter-chip" data-filter="library" aria-pressed="false" data-i18n="filters.library">Libraries</button>
-        <button class="filter-chip" data-filter="game" aria-pressed="false" data-i18n="filters.game">Games</button>
-        <button class="filter-chip" data-filter="app" aria-pressed="false" data-i18n="filters.app">Apps & Tools</button>
-        <button class="filter-chip" data-filter="api" aria-pressed="false" data-i18n="filters.api">APIs</button>
-        <button class="filter-chip" data-filter="website" aria-pressed="false" data-i18n="filters.website">Websites</button>
+      <div class="projects-toolbar">
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="filter-chip active" data-filter="all" aria-pressed="true" data-i18n="filters.all">All</button>
+          <button class="filter-chip" data-filter="library" aria-pressed="false" data-i18n="filters.library">Libraries</button>
+          <button class="filter-chip" data-filter="game" aria-pressed="false" data-i18n="filters.game">Games</button>
+          <button class="filter-chip" data-filter="app" aria-pressed="false" data-i18n="filters.app">Apps & Tools</button>
+          <button class="filter-chip" data-filter="api" aria-pressed="false" data-i18n="filters.api">APIs</button>
+          <button class="filter-chip" data-filter="website" aria-pressed="false" data-i18n="filters.website">Websites</button>
+        </div>
+
+        <!-- Carousel / grid view toggle. The active state is synced from
+             state.view by scripts/render/projects.js, so the aria-pressed
+             values here are just the initial paint. -->
+        <div class="view-toggle" role="group" aria-label="Project view" data-i18n-aria="view.ariaLabel">
+          <button type="button" class="view-toggle-btn active" data-view="carousel" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="9" height="16" rx="2"/><rect x="12" y="4" width="9" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <span data-i18n="view.carousel">Carousel</span>
+          </button>
+          <button type="button" class="view-toggle-btn" data-view="grid" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            <span data-i18n="view.grid">Grid</span>
+          </button>
+        </div>
       </div>
 
       <div class="projects-grid" id="projects-grid"><!-- rendered by JS --></div>
@@ -239,6 +266,24 @@
         <h2 class="section-title" data-i18n="skills.title">Skills & Technologies</h2>
         <p class="section-sub" data-i18n="skills.subtitle">The tools I reach for when building for the web.</p>
       </div>
+      <!-- Carousel / grid toggle, same control as the projects section. The
+           active state is synced from state.skillsView by
+           scripts/render/skills.js (grid on desktop, carousel on phones,
+           unless the visitor already picked one), so the aria-pressed
+           values here are just the initial paint. -->
+      <div class="projects-toolbar skills-toolbar">
+        <div class="view-toggle" role="group" aria-label="Skills view" data-i18n-aria="view.ariaLabelSkills">
+          <button type="button" class="view-toggle-btn" data-view="carousel" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="9" height="16" rx="2"/><rect x="12" y="4" width="9" height="16" rx="2"/><path d="M3 9h18"/></svg>
+            <span data-i18n="view.carousel">Carousel</span>
+          </button>
+          <button type="button" class="view-toggle-btn active" data-view="grid" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            <span data-i18n="view.grid">Grid</span>
+          </button>
+        </div>
+      </div>
+
       <div class="skills-groups" id="skills-groups"><!-- rendered by JS from data/portfolio-data.js --></div>
     </section>
 

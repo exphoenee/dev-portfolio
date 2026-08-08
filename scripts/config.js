@@ -7,6 +7,8 @@ export const THEME_DARK = 'dark';
 export const THEME_LIGHT = 'light';
 
 export const LANG_KEY = 'portfolio-lang';
+export const VIEW_KEY = 'portfolio-view';
+export const SKILLS_VIEW_KEY = 'portfolio-skills-view';
 
 export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mrejlned';
 export const TURNSTILE_SITEKEY = '0x4AAAAAADlq-gSDTCI_ln-y';

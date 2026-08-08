@@ -181,8 +181,11 @@ a { color: inherit; text-decoration: none; }
 
 .nav-controls { display: flex; align-items: center; gap: 14px; }
 
-/* Language switcher */
+/* Language switcher. Desktop: the six codes in a pill row. The dropdown
+   trigger and the full language names belong to the mobile shape (see the
+   768px block) and are inert here. */
 .lang-switcher {
+  position: relative;
   display: flex;
   gap: 4px;
   padding: 4px;
@@ -190,9 +193,15 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--border);
   border-radius: 999px;
 }
+.lang-menu { display: flex; gap: 4px; }
+.lang-current { display: none; }
+.lang-name { display: none; }
 /* Text labels (EN, DE, HU…) since the GB flag no longer stands in for
    English — language codes stay crisp at any size, no emoji font needed. */
 .lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: none;
   background: transparent;
   color: var(--text-muted); /* buttons do not inherit color, without this, UA default (dark) text is invisible on dark theme */
@@ -511,14 +520,54 @@ a { color: inherit; text-decoration: none; }
 .section-cta { margin-top: 22px; }
 
 /* ============================================================
-   Filters
+   Filters + view toggle toolbar
    ============================================================ */
+.projects-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
 .filters {
   display: flex;
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 44px;
+}
+
+/* Carousel / grid segmented control. The active state is synced from
+   state.view by scripts/render/projects.js. */
+.view-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.view-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.view-toggle-btn svg { width: 15px; height: 15px; }
+.view-toggle-btn:hover { color: var(--text); }
+.view-toggle-btn.active {
+  background: var(--gradient);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
 }
 .filter-chip {
   padding: 9px 20px;
@@ -560,7 +609,12 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
-.project-card:hover {
+/* The hover lift is a grid-view interaction. In the carousel the slide's
+   own transform IS its coverflow position, so a hover transform on the
+   card would yank it out of the stage and jitter (hover → card moves away
+   from the pointer → un-hover → snap back → …). Scoped to the grid with
+   :not(.is-carousel). */
+.projects-grid:not(.is-carousel) .project-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
   border-color: rgba(99, 102, 241, 0.4);
@@ -590,7 +644,7 @@ a { color: inherit; text-decoration: none; }
   object-fit: cover;
   transition: transform 0.6s var(--ease);
 }
-.project-card:hover .card-media img { transform: scale(1.07); }
+.projects-grid:not(.is-carousel) .project-card:hover .card-media img { transform: scale(1.07); }
 .card-zoom {
   position: absolute;
   right: 14px;
@@ -611,7 +665,10 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 .card-zoom svg { width: 17px; height: 17px; }
-.project-card:hover .card-zoom { opacity: 1; transform: translateY(0) scale(1); }
+.projects-grid:not(.is-carousel) .project-card:hover .card-zoom { opacity: 1; transform: translateY(0) scale(1); }
+/* In the carousel the zoom badge is only meaningful on the active slide
+   (the lightbox opens from there); flanking slides are click-to-advance. */
+.carousel-slide:not([data-state="active"]) .card-zoom { display: none; }
 
 .card-category {
   position: absolute;
@@ -702,13 +759,20 @@ a { color: inherit; text-decoration: none; }
 }
 .tech-tag img { width: 15px; height: 15px; flex-shrink: 0; }
 
-/* Card links */
-.card-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+/* Card links. The row never wraps: with three links (repo / demo / npm) a
+   wrapped third button broke the card rhythm and, in the carousel, made the
+   slides unequal. The buttons share the row equally (flex: 1 1 0 + min-width: 0)
+   and the label ellipsises on the narrowest cards instead of pushing a button
+   onto a second line. */
+.card-links { display: flex; gap: 8px; flex-wrap: nowrap; margin-top: auto; }
 .card-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  min-width: 0;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 10px;
   font-size: 0.84rem;
   font-weight: 600;
@@ -717,6 +781,11 @@ a { color: inherit; text-decoration: none; }
   color: var(--text);
   transition: all 0.25s var(--ease);
 }
+.card-link-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .card-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 .card-link.primary {
   background: var(--gradient);
@@ -724,13 +793,213 @@ a { color: inherit; text-decoration: none; }
   border-color: transparent;
 }
 .card-link.primary:hover { box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); }
-.card-link svg { width: 15px; height: 15px; }
+.card-link svg { width: 15px; height: 15px; flex-shrink: 0; }
 
 /* The card entrance is a data-reveal now, see the scroll reveal block. The
    keyframe version it replaces ran with animation-fill-mode: forwards, and a
    filled animation outranks normal declarations in the cascade, so its final
    transform: translateY(0) was permanently beating .project-card:hover and
    the cards never lifted on hover. */
+
+/* ============================================================
+   Projects carousel (coverflow, ported from the CV repo)
+   ============================================================ */
+/* In carousel mode the grid container is a plain block; the stage positions
+   the slides absolutely. The card hover lift is scoped to grid mode only
+   (see .project-card:hover above), so it never fights the coverflow
+   transforms. */
+.projects-grid.is-carousel { display: block; }
+
+/* Flanking slides are clickable (click = advance), so hovering them raises
+   their dimmed opacity as a cue. The coverflow transform is their
+   position, so it must never change on hover — that would tear the card
+   out of the stage and, because the card moves away from under the
+   pointer, trigger an endless hover/un-hover oscillation. */
+.carousel-slide[data-state="prev"]:hover,
+.carousel-slide[data-state="next"]:hover {
+  opacity: 0.65;
+}
+/* The zoom-in cursor belongs to the lightbox (grid cards + the active
+   slide). On flanking slides a click advances the carousel, so the media
+   button must not promise a zoom — the card's pointer cursor applies. */
+.carousel-slide:not([data-state="active"]) .card-media-btn { cursor: pointer; }
+
+/* The coverflow paints far outside the stage: the flanking slides sit at
+   ±0.68 slide widths and the hidden ones (opacity: 0, but still part of the
+   scrollable overflow) at ±1.15, which on anything narrower than ~1300px
+   reaches past the viewport and gives the whole page a horizontal scroll.
+   overflow-x: clip cuts that at the section's content box — unlike
+   overflow: hidden it does NOT force the other axis to auto, so the stage
+   keeps spilling its shadows vertically and nothing becomes a scroll
+   container. The clip margin leaves room for the active slide's shadow and
+   stays inside the section's 24px / 18px padding, so it can never reach the
+   viewport edge. */
+.projects-carousel {
+  position: relative;
+  overflow-x: clip;
+  overflow-clip-margin: 12px;
+}
+
+.carousel-stage {
+  --slide-w: 420px;
+  position: relative;
+  height: 620px;
+  perspective: 1100px;
+  perspective-origin: 50% 32%;
+  overflow: visible;
+  outline: none;
+  touch-action: pan-y;
+}
+.carousel-stage:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: var(--radius);
+}
+
+.carousel-slide {
+  position: absolute;
+  width: var(--slide-w);
+  height: 100%; /* fill the fixed-height stage → every slide is the same height */
+  left: 50%;
+  top: 0;
+  margin-left: calc(var(--slide-w) / -2);
+  background: var(--surface);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.45s ease,
+    box-shadow 0.45s ease;
+  will-change: transform, opacity;
+  user-select: none;
+  -webkit-user-select: none;
+  /* The stage allows vertical pans (page + the desc panel scroll), so a
+     horizontal gesture is handed to the drag handlers in JS. */
+  touch-action: pan-y;
+}
+/* While the pointer drags the coverflow, the per-state transition would
+   lag behind the finger; disabled for the duration, re-enabled on release
+   so the settle (page or snap-back) animates. */
+.carousel-stage.is-dragging .carousel-slide { transition: none; }
+
+/* A swipe has to start anywhere on a slide, not just over the title. The
+   scrollable regions inside one — the project description, the skills chip
+   block — default to touch-action: auto, so the browser claimed the
+   horizontal gesture for a pan of its own and fired pointercancel at the
+   drag handler, which then bailed out. pan-y on the whole subtree keeps
+   their vertical scrolling (and the page's) while handing every horizontal
+   gesture to the JS, the same deal the stage and the slides already have.
+   Nothing inside a slide scrolls sideways, so this costs nothing and any
+   element added later is covered by default. */
+.carousel-slide * { touch-action: pan-y; }
+/* Equal-height cards: the media keeps its aspect ratio, the body fills the
+   rest, and the description absorbs whatever is left and scrolls inside it.
+   Grid cards keep their fixed 150px description (see .card-desc above). */
+.carousel-slide .card-media { flex-shrink: 0; }
+.carousel-slide .card-body { flex: 1; min-height: 0; }
+.carousel-slide .card-desc {
+  height: auto;
+  flex: 1 1 0;
+  min-height: 0;
+}
+/* Icon-only tech tags: compact square chips, no label padding. */
+.carousel-slide .tech-tag {
+  padding: 4px;
+  gap: 0;
+}
+/* Slides are narrower than grid cards (down to 78vw on phones), so the
+   three-button row gets a tighter box to keep "Forrás / Demo / npm" on one
+   line without the labels truncating. */
+.carousel-slide .card-links { gap: 6px; }
+.carousel-slide .card-link {
+  padding: 8px 9px;
+  gap: 5px;
+  font-size: 0.8rem;
+}
+
+/* Coverflow positions, scaled from the CV repo's index page. The offsets
+   are fractions of the slide width so the layout survives any slide size. */
+/* Every position starts with --drag-x, the live finger offset set by the
+   drag handlers (scripts/ui/carousel.js). All states move together so the
+   coverflow feels like one rigid row you push sideways; 0 by default, so
+   the static layout is unchanged. */
+.carousel-slide[data-state="active"] {
+  transform: translateX(var(--drag-x, 0px)) translateZ(0) rotateY(0deg);
+  opacity: 1;
+  z-index: 10;
+  box-shadow: var(--shadow-lg);
+}
+.carousel-slide[data-state="prev"],
+.carousel-slide[data-state="next"] {
+  opacity: 0.45;
+  z-index: 5;
+  cursor: pointer;
+}
+.carousel-slide[data-state="prev"] {
+  transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * -0.68)) translateZ(-70px) rotateY(42deg) scale(0.82);
+}
+.carousel-slide[data-state="next"] {
+  transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * 0.68)) translateZ(-70px) rotateY(-42deg) scale(0.82);
+}
+.carousel-slide[data-state="hidden-prev"],
+.carousel-slide[data-state="hidden-next"] {
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.carousel-slide[data-state="hidden-prev"] {
+  transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * -1.15)) translateZ(-130px) rotateY(55deg) scale(0.6);
+}
+.carousel-slide[data-state="hidden-next"] {
+  transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * 1.15)) translateZ(-130px) rotateY(-55deg) scale(0.6);
+}
+
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 18px 0 6px;
+}
+.carousel-arrow {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.25s var(--ease);
+}
+.carousel-arrow:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+.carousel-arrow svg { width: 18px; height: 18px; }
+
+.carousel-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  max-width: 440px;
+}
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--chip-bg);
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.carousel-dot:hover { transform: scale(1.2); border-color: var(--accent); }
+.carousel-dot.active {
+  background: var(--accent);
+  transform: scale(1.4);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+}
 
 /* ============================================================
    Skills
@@ -740,6 +1009,41 @@ a { color: inherit; text-decoration: none; }
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
 }
+/* Carousel view: like the projects grid, the container becomes a plain
+   block and the stage positions the slides. */
+.skills-groups.is-carousel { display: block; }
+/* The toolbar here holds only the view toggle, so it sits on the right the
+   way it does next to the project filters. */
+.skills-toolbar { justify-content: flex-end; }
+
+/* A skill group is a title plus a handful of chips — far shorter than a
+   project card, so the stage is shorter too, and the slide is sized for a
+   chip block rather than a 16:9 image. */
+.skills-carousel .carousel-stage {
+  --slide-w: 380px;
+  height: 340px;
+}
+/* Hovering a flanking slide only brightens it (the click-to-advance cue
+   from .carousel-slide[data-state="prev"]:hover); the border tint is the
+   whole hover feedback here, nothing that moves. */
+.skills-groups.is-carousel .skill-group:hover { border-color: rgba(99, 102, 241, 0.35); }
+.skill-group.carousel-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+/* Many chips (10 in the longest group) must not spill out of the fixed
+   stage height; the block scrolls inside the slide instead. */
+.skill-group.carousel-slide .skill-chips {
+  align-content: flex-start;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.45) transparent;
+}
 .skill-group {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -748,7 +1052,15 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(8px);
   transition: transform 0.3s var(--ease), border-color 0.3s;
 }
-.skill-group:hover { transform: translateY(-4px); border-color: rgba(99, 102, 241, 0.35); }
+/* Grid-only hover lift. In the carousel the slide's own transform IS its
+   coverflow position, so any transform on hover yanks the card out of the
+   stage — and because the card then moves out from under the pointer, it
+   un-hovers, snaps back, re-hovers… a visible jitter. Same reason the
+   project cards scope their lift to :not(.is-carousel). */
+.skills-groups:not(.is-carousel) .skill-group:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.35);
+}
 .skill-group-title {
   font-size: 0.9rem;
   font-weight: 700;
@@ -1262,6 +1574,11 @@ a { color: inherit; text-decoration: none; }
   .hero { padding-top: 130px; }
   .hero-terminal { max-width: 520px; }
   .projects-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .carousel-stage { --slide-w: 360px; height: 560px; }
+  /* The skills stage needs its own step: the selector above is one class
+     less specific than .skills-carousel .carousel-stage, so it would never
+     reach it. */
+  .skills-carousel .carousel-stage { --slide-w: 340px; height: 320px; }
 }
 
 @media (max-width: 768px) {
@@ -1283,9 +1600,52 @@ a { color: inherit; text-decoration: none; }
   .nav-links a { padding: 10px 0; font-size: 1.05rem; }
   .nav-cv-link { display: block; }
   .hamburger { display: flex; }
-  .lang-switcher .lang-btn { padding: 5px 7px; font-size: 0.72rem; }
   .btn-cv { display: none; } /* below 768px the mobile menu is the only CV source */
   .stats-row { gap: 26px; }
+
+  /* Hero CTAs: the primary action takes a full row, the two secondary ones
+     split the next one. flex-basis 50% minus half the gap lines them up with
+     the primary button's edges, and min-width: 0 lets a long label wrap
+     inside its button instead of forcing a third row. */
+  .hero-actions { gap: 12px; }
+  .hero-actions .btn { flex: 1 1 calc(50% - 6px); min-width: 0; }
+  .hero-actions .btn-primary { flex-basis: 100%; }
+
+  /* Contact cards on phones: the desktop tile (big icon over centred text)
+     eats most of the screen, so the card turns into a strip — a small icon
+     on the left, spanning both text rows, so it ends up as tall as the two
+     lines (name + value) beside it. Desktop keeps the tile. The markup is
+     three flat children (icon / name / value), hence grid placement rather
+     than a wrapper div. */
+  .contact-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 2px;
+    text-align: left;
+    padding: 14px 16px;
+  }
+  .contact-icon {
+    grid-row: 1 / span 2;
+    display: grid;
+    place-items: center;
+    font-size: 2.4rem;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+  .contact-icon svg { width: 46px; height: 46px; }
+  .contact-icon .contact-img { width: 50px; height: 50px; border-radius: 12px; }
+  /* No rotation once the icon sits inline next to the text — a tilted square
+     would collide with the name. */
+  .contact-card:hover .contact-icon { transform: scale(1.08); }
+  .contact-name { grid-column: 2; }
+  .contact-value { grid-column: 2; }
+
+  /* Timeline on phones: the rail is narrow and the cards are read while
+     scrolling past, so the period, the role and the company carry the story
+     and the paragraph is dropped. */
+  .timeline-desc { display: none; }
   .timeline-list::before { left: 8px; transform: none; }
   .timeline-item,
   .timeline-item:nth-child(even) {
@@ -1297,10 +1657,118 @@ a { color: inherit; text-decoration: none; }
   .timeline-dot { left: 0; right: auto; }
 }
 
+/* The six-code language row is ~200px wide; from ~1024px down the nav runs
+   out of room for it (at 900px it pushed the theme toggle past the viewport
+   edge, below 768px the hamburger). It collapses into a dropdown here: one
+   trigger showing the current language, and the same .lang-btn list as a
+   popup panel under it. */
+@media (max-width: 1024px) {
+  .lang-switcher {
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+  }
+  .lang-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.25s var(--ease);
+  }
+  .lang-current:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-caret { width: 12px; height: 12px; transition: transform 0.25s var(--ease); }
+  .lang-switcher.open .lang-caret { transform: rotate(180deg); }
+
+  /* Hidden with visibility (not display) so the open/close transition runs
+     and the panel keeps its measured width. */
+  .lang-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 120;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 156px;
+    padding: 6px;
+    /* Opaque, not the navbar's 0.75 alpha: the panel sits over cards and
+       photos, and the text has to stay readable against all of them. */
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
+  }
+  .lang-switcher.open .lang-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  /* Full opacity here: the 0.65 that dims the desktop pill row is fine
+     against a solid navbar, but over the blurred panel it made the labels
+     hard to read. The inactive/active distinction is carried by colour
+     instead. */
+  .lang-menu .lang-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 9px 11px;
+    border-radius: 10px;
+    font-size: 0.74rem;
+    opacity: 1;
+    color: var(--text);
+  }
+  /* No hover lift inside the panel — it would slide the row out from under
+     the finger mid-tap. */
+  .lang-menu .lang-btn:hover,
+  .lang-menu .lang-btn.active { transform: none; }
+  .lang-menu .lang-btn:hover { background: var(--surface-2); }
+  .lang-menu .lang-btn.active { color: var(--accent); background: var(--surface-2); }
+  .lang-name {
+    display: inline;
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+}
+
 @media (max-width: 480px) {
   .section { padding: 70px 18px; }
   .hero { padding: 120px 18px 70px; }
   .projects-grid { grid-template-columns: 1fr; }
+  /* The coverflow needs the flanking slides to peek, so on phones the slide
+     gets narrower and the side offsets shrink with it (they are fractions
+     of --slide-w, but translateZ/scale stay put). */
+  .carousel-stage { --slide-w: 78vw; height: 540px; }
+  .skills-carousel .carousel-stage { --slide-w: 78vw; height: 300px; }
+  .carousel-slide[data-state="prev"] {
+    transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * -0.62)) translateZ(-60px) rotateY(40deg) scale(0.82);
+  }
+  .carousel-slide[data-state="next"] {
+    transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * 0.62)) translateZ(-60px) rotateY(-40deg) scale(0.82);
+  }
+  .projects-toolbar { justify-content: center; }
+  /* Phone cards leave ~240px for the link row; shrink the buttons rather
+     than let a third one wrap to its own line. */
+  .card-links { gap: 6px; }
+  .card-link { padding: 8px 8px; gap: 4px; font-size: 0.78rem; }
+  .card-link svg { width: 14px; height: 14px; }
+  .carousel-slide .card-link { padding: 7px 6px; font-size: 0.76rem; }
 }
 
 /* Reduced motion */
