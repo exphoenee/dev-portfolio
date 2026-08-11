@@ -131,7 +131,12 @@ export function initCarousel(root) {
     drag.startY = e.clientY;
     drag.moved = false;
     drag.suppress = false;
-    try { stage.setPointerCapture(e.pointerId); } catch { /* synthetic or unsupported pointers */ }
+    /* No setPointerCapture here, deliberately. While the stage holds the
+       capture, the browser retargets the whole gesture onto it — including
+       the click that ends it — so a plain tap on a card tab, link or the
+       zoom button arrived at the stage and the button never fired. The
+       capture is taken in pointermove instead, once the gesture is a real
+       horizontal drag; a tap never reaches that point. */
   });
 
   stage.addEventListener('pointermove', (e) => {
@@ -147,6 +152,10 @@ export function initCarousel(root) {
       }
       drag.moved = true;
       stage.classList.add('is-dragging');
+      /* Now that this is a drag and not a tap, capture: the rest of the
+         gesture keeps coming to the stage even if the finger leaves it, and
+         the click it ends with is swallowed below (drag.suppress). */
+      try { stage.setPointerCapture(e.pointerId); } catch { /* synthetic or unsupported pointers */ }
     }
     if (Math.abs(dx) > 8) drag.suppress = true;
     stage.style.setProperty('--drag-x', `${clamp(dx, -slideW * 0.5, slideW * 0.5)}px`);
