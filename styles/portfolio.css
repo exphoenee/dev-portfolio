@@ -289,6 +289,8 @@ a { color: inherit; text-decoration: none; }
 /* ============================================================
    Hero
    ============================================================ */
+/* Same 1200px column as .section, so the hero lines up with every other
+   part of the page; only the top padding is taller, for the fixed navbar. */
 .hero {
   max-width: 1200px;
   margin: 0 auto;
@@ -298,11 +300,14 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
 }
 
+/* Top-aligned, not centred: the right column carries two windows and is far
+   taller than the copy, so centring pushed the badge and the title well
+   below the terminal's top edge. */
 .hero-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
   gap: 60px;
-  align-items: center;
+  align-items: start;
   width: 100%;
 }
 
@@ -363,8 +368,9 @@ a { color: inherit; text-decoration: none; }
 }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* No max-width on the hero copy: it fills its grid column, which is what
+   carries the full-bleed hero out to the edges of the screen. */
 .hero-desc {
-  max-width: 560px;
   color: var(--text-muted);
   font-size: 1.06rem;
   margin: 18px 0 22px;
@@ -386,7 +392,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero-story {
-  max-width: 560px;
   font-size: 0.92rem;
   line-height: 1.7;
   color: var(--text-muted);
@@ -1657,7 +1662,9 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; gap: 44px; }
   .hero { padding-top: 130px; }
-  .hero-terminal { max-width: 520px; }
+  /* Stacked under the copy now, so the two windows take the whole width
+     that is left rather than sitting in a 520px box. */
+  .hero-terminal { max-width: 100%; }
   .projects-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   .carousel-stage { --slide-w: 360px; height: 560px; }
   /* The skills stage needs its own step: the selector above is one class
