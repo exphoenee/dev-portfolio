@@ -28,7 +28,9 @@ const LINK_ICONS = {
   npm: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.76 1.76h20.48v20.48H1.76z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 6.24H5.52v11.52H12V9.6h2.88v8.16h2.88V6.24z"/></svg>'
 };
 
-function cardTitle(p) {
+/* Exported: the hero showcase deck opens the same lightbox and needs the
+   same title, in the same language. */
+export function cardTitle(p) {
   return (p.nameL10n && p.nameL10n[locale.lang]) || p.name;
 }
 

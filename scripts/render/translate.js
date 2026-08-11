@@ -21,6 +21,7 @@ import { renderTimeline, updateTimelineText } from './timeline.js';
 import { renderSkills, updateSkillsText } from './skills.js';
 import { renderContact, updateContactText } from './contact.js';
 import { renderTerminal } from './terminal.js';
+import { renderShowcase } from '../ui/showcase.js';
 import { restartTyping } from '../ui/typed.js';
 import { bkUpdateText } from '../modals/booking.js';
 
@@ -67,9 +68,11 @@ export function renderAll() {
   renderTimeline();
   renderSkills();
   renderContact();
-  // The terminal is decorative and language-independent (project ids and
-  // computed counts), so it is built once and never touched again.
+  // The terminal and the showcase are decorative and language-independent
+  // (project ids, computed counts, thumbnails), so they are built once and
+  // never touched again.
   renderTerminal();
+  renderShowcase();
   restartTyping();
 }
 

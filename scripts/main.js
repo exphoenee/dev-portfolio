@@ -79,6 +79,16 @@ function initLangSwitcher() {
   });
 }
 
+/* Images stay put: no dragging one out of the page. The CSS (-webkit-user-
+   drag) covers Chrome and Safari; this is the part Firefox honours, and
+   being on the document it also covers every image rendered later — cards,
+   chips, contact icons, the showcase deck. */
+function initImageDragGuard() {
+  document.addEventListener('dragstart', (e) => {
+    if (e.target instanceof HTMLImageElement) e.preventDefault();
+  });
+}
+
 function initFooterYear() {
   // "© 2026 …" while the current year is 2026, then "© 2026-2027 …" from 2027 on.
   const yearStart = 2026;
@@ -110,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // cards add their own, and this one pass picks up both.
   revealIn();
   initFooterYear();
+  initImageDragGuard();
 
   $('#theme-toggle').addEventListener('click', toggleTheme);
   initLangSwitcher();

@@ -214,6 +214,18 @@
               <p><span class="t-prompt">➜</span> <span class="t-cursor">▊</span></p>
             </div>
           </div>
+
+          <!-- Second window under the terminal: the project thumbnails swirl
+               through it on a loop. Same .terminal chrome, square stage; the
+               images are injected by scripts/ui/showcase.js, the motion is
+               CSS (.showcase in styles/portfolio.css). -->
+          <div class="terminal showcase">
+            <div class="terminal-bar">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <span class="terminal-title">projects, preview</span>
+            </div>
+            <div class="showcase-stage" id="showcase-stage"><!-- rendered by JS --></div>
+          </div>
         </div>
       </div>
     </section>
