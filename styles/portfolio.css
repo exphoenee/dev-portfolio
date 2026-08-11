@@ -1248,6 +1248,12 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 8px;
 }
 .timeline-desc { font-size: 0.88rem; color: var(--text-muted); }
+/* Compact view: period, role and company only. Toggled by the toolbar
+   (scripts/render/timeline.js), compact being the phone default. */
+.timeline-list.is-compact .timeline-desc { display: none; }
+/* Only the toggle sits in this toolbar, so it lines up on the right, the
+   same edge the skills toggle sits on. */
+.timeline-toolbar { justify-content: flex-end; margin-top: -18px; }
 
 /* ============================================================
    Footer
@@ -1642,10 +1648,10 @@ a { color: inherit; text-decoration: none; }
   .contact-name { grid-column: 2; }
   .contact-value { grid-column: 2; }
 
-  /* Timeline on phones: the rail is narrow and the cards are read while
-     scrolling past, so the period, the role and the company carry the story
-     and the paragraph is dropped. */
-  .timeline-desc { display: none; }
+  /* The paragraph is no longer hidden by the breakpoint: the compact view
+     does it (see .timeline-list.is-compact), and phones default to compact,
+     so the result is the same — except a phone visitor can now switch the
+     descriptions back on. */
   .timeline-list::before { left: 8px; transform: none; }
   .timeline-item,
   .timeline-item:nth-child(even) {
@@ -1763,6 +1769,8 @@ a { color: inherit; text-decoration: none; }
     transform: translateX(calc(var(--drag-x, 0px) + var(--slide-w) * 0.62)) translateZ(-60px) rotateY(-40deg) scale(0.82);
   }
   .projects-toolbar { justify-content: center; }
+  /* …except the timeline's, which stays on the right edge at every width. */
+  .timeline-toolbar { justify-content: flex-end; }
   /* Phone cards leave ~240px for the link row; shrink the buttons rather
      than let a third one wrap to its own line. */
   .card-links { gap: 6px; }

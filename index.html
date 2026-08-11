@@ -295,6 +295,23 @@
         <p class="section-sub" data-i18n="timeline.subtitle">From mechanical engineering to leading frontend teams.</p>
         <a class="btn btn-primary section-cta" href="https://viktor.bozzay.online" target="_blank" rel="noopener" data-i18n="timeline.cvBtn">View Full CV</a>
       </div>
+      <!-- Detailed / compact toggle, the same control the projects and
+           skills sections use. state.timelineView is the source of truth
+           (detailed on desktop, compact on phones, unless the visitor
+           already picked one), so these values are just the initial paint. -->
+      <div class="projects-toolbar timeline-toolbar">
+        <div class="view-toggle" role="group" aria-label="Timeline view" data-i18n-aria="view.ariaLabelTimeline">
+          <button type="button" class="view-toggle-btn active" data-detail="detailed" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 10h16M4 15h12M4 20h8"/></svg>
+            <span data-i18n="view.detailed">Detailed</span>
+          </button>
+          <button type="button" class="view-toggle-btn" data-detail="compact" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"/></svg>
+            <span data-i18n="view.compact">Compact</span>
+          </button>
+        </div>
+      </div>
+
       <div class="timeline-list" id="timeline-list"><!-- rendered by JS --></div>
     </section>
 

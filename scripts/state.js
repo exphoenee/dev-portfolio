@@ -4,7 +4,7 @@
    persists and falls back), so the render modules read locale.lang.
    ============================================================ */
 
-import { THEME_DARK, VIEW_KEY, SKILLS_VIEW_KEY } from './config.js';
+import { THEME_DARK, VIEW_KEY, SKILLS_VIEW_KEY, TIMELINE_VIEW_KEY } from './config.js';
 
 /* The projects and the skills sections can both be shown as a coverflow
    carousel (ported from the CV repo's index page) or as the classic grid,
@@ -24,15 +24,24 @@ const isPhone = () => {
   }
 };
 
-function readView(key, fallback) {
+/* The timeline has the same shape of choice with different values: the
+   detailed card (period, role, company, description) or the compact one
+   (everything but the description). Compact is what phones showed before
+   the switch existed, so it stays their default. */
+const TIMELINE_DETAILED = 'detailed';
+const TIMELINE_COMPACT = 'compact';
+
+function readOneOf(key, allowed, fallback) {
   try {
     const saved = localStorage.getItem(key);
-    if (saved === VIEW_GRID || saved === VIEW_CAROUSEL) return saved;
+    if (allowed.includes(saved)) return saved;
   } catch {
     /* private mode etc., fall through to the default */
   }
   return fallback;
 }
+
+const readView = (key, fallback) => readOneOf(key, [VIEW_GRID, VIEW_CAROUSEL], fallback);
 
 function writeView(key, view) {
   try {
@@ -46,6 +55,11 @@ export const state = {
   theme: THEME_DARK,
   view: readView(VIEW_KEY, VIEW_CAROUSEL),
   skillsView: readView(SKILLS_VIEW_KEY, isPhone() ? VIEW_CAROUSEL : VIEW_GRID),
+  timelineView: readOneOf(
+    TIMELINE_VIEW_KEY,
+    [TIMELINE_DETAILED, TIMELINE_COMPACT],
+    isPhone() ? TIMELINE_COMPACT : TIMELINE_DETAILED
+  ),
   filter: 'all',
   tabs: {} // per-card tab memory: { [projectId]: 'functional' | 'technical' }
 };
@@ -64,4 +78,10 @@ export function setSkillsView(view) {
   if (view !== VIEW_CAROUSEL && view !== VIEW_GRID) return;
   state.skillsView = view;
   writeView(SKILLS_VIEW_KEY, view);
+}
+
+export function setTimelineView(view) {
+  if (view !== TIMELINE_DETAILED && view !== TIMELINE_COMPACT) return;
+  state.timelineView = view;
+  writeView(TIMELINE_VIEW_KEY, view);
 }

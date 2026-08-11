@@ -17,6 +17,7 @@ import { installImageLoaders } from './ui/image-loader.js';
 import { renderAll, applyTranslations } from './render/translate.js';
 import { initProjectCards } from './render/projects.js';
 import { initSkillsView } from './render/skills.js';
+import { initTimelineView } from './render/timeline.js';
 
 import { initEscapeHandling } from './modals/modal.js';
 import { loadTurnstileScript } from './modals/turnstile.js';
@@ -114,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLangSwitcher();
   initProjectCards();
   initSkillsView();
+  initTimelineView();
   initNavbar();
   initScrollSpy();
   initBackToTop();
