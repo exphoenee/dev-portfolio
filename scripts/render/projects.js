@@ -7,7 +7,7 @@
 import { $, $$, t, esc } from '../dom.js';
 import { locale } from '../locale.js';
 import { state, tabFor, setView } from '../state.js';
-import { PROJECTS } from '../../data/portfolio-data.js';
+import { PROJECTS, categoriesOf } from '../../data/portfolio-data.js';
 import { techIconSrc } from '../tech-icons.js';
 import { openImageModal } from '../modals/image.js';
 import { revealIn } from '../ui/reveal.js';
@@ -17,9 +17,11 @@ import { initCarousel } from '../ui/carousel.js';
 const CATEGORY_ICONS = {
   library: '📦',
   game: '🎮',
-  app: '🛠️',
   api: '🔌',
-  website: '🌐'
+  website: '🌐',
+  fullstack: '🧱',
+  webapp: '📲',
+  tool: '🛠️'
 };
 
 const LINK_ICONS = {
@@ -54,7 +56,13 @@ function techTag(label, iconOnly = false) {
 function projectCard(p, index, carousel = false) {
   const d = p.desc[locale.lang];
   const title = cardTitle(p);
-  const icons = CATEGORY_ICONS[p.category] || '📁';
+  /* A project can sit in several categories (a game that is also full
+     stack), and each one gets its own badge over the image. data-category
+     on the badge is what the language switch patches the label from. */
+  const cats = categoriesOf(p);
+  const badges = cats
+    .map((c) => `<span class="card-category" data-category="${c}">${CATEGORY_ICONS[c] || '📁'} <span class="card-category-label">${esc(t('filters.' + c))}</span></span>`)
+    .join('');
   // The label sits in its own span so a language switch can patch the text
   // without touching the inline SVG next to it.
   const links = Object.entries(p.links).map(([type, url]) => {
@@ -74,11 +82,11 @@ function projectCard(p, index, carousel = false) {
   const slideClass = carousel ? ' carousel-slide' : '';
   const reveal = carousel ? '' : ` data-reveal="fade-up" data-reveal-delay="${delay}"`;
   return `
-    <article class="project-card${slideClass}" data-category="${p.category}" data-id="${p.id}"${reveal}>
+    <article class="project-card${slideClass}" data-category="${cats.join(' ')}" data-id="${p.id}"${reveal}>
       <div class="card-media">
         <button type="button" class="card-media-btn" data-img-src="${esc(p.image)}" data-img-alt="${esc(title)}" aria-label="${esc(title)}, ${esc(t('image.zoomAria'))}">
           <img src="${esc(smallImg)}" alt="${esc(title)}" loading="lazy">
-          <span class="card-category">${icons} <span class="card-category-label">${esc(t('filters.' + p.category))}</span></span>
+          <span class="card-categories">${badges}</span>
           <span class="card-zoom" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg>
           </span>
@@ -127,9 +135,10 @@ function carouselShell(projects) {
 export function renderProjects() {
   const grid = $('#projects-grid');
   if (!grid) return;
+  // A project shows up under every category it declares, not just the first.
   const filtered = state.filter === 'all'
     ? PROJECTS
-    : PROJECTS.filter((p) => p.category === state.filter);
+    : PROJECTS.filter((p) => categoriesOf(p).includes(state.filter));
 
   const carousel = state.view === 'carousel';
   grid.classList.toggle('is-carousel', carousel);
@@ -157,7 +166,9 @@ export function updateProjectsText() {
     const activeTab = tabFor(p.id);
 
     $('.card-title', card).textContent = title;
-    $('.card-category-label', card).textContent = t('filters.' + p.category);
+    $$('.card-category', card).forEach((badge) => {
+      $('.card-category-label', badge).textContent = t('filters.' + badge.dataset.category);
+    });
     $('.card-desc', card).textContent = p.desc[locale.lang][activeTab];
 
     $$('.card-tab', card).forEach((tab) => {

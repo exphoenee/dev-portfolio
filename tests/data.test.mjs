@@ -12,7 +12,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 
-import { PROJECTS, TIMELINE, SKILLS, CONTACT } from '../data/portfolio-data.js';
+import { PROJECTS, TIMELINE, SKILLS, CONTACT, categoriesOf } from '../data/portfolio-data.js';
 import { FORBIDDEN_WORDS } from '../data/forbidden-words.js';
 import { findForbiddenWord } from '../scripts/modals/form-guards.js';
 import { AVAILABLE_LANGS } from '../scripts/locale.js';
@@ -76,9 +76,26 @@ test('every project has both descriptions in every language', () => {
   }
 });
 
+/* A project may declare several categories; every one of them needs a chip
+   to be reachable, and every chip needs at least one project behind it. */
 test('every project category has a filter chip translation', () => {
   for (const p of PROJECTS) {
-    assert.ok(EN_PAGE.labels['filters.' + p.category], `no filter label for "${p.category}"`);
+    const cats = categoriesOf(p);
+    assert.ok(cats.length > 0, `${p.id} has no category`);
+    for (const c of cats) {
+      assert.ok(EN_PAGE.labels['filters.' + c], `no filter label for "${c}" (${p.id})`);
+    }
+  }
+});
+
+test('every filter chip has at least one project', () => {
+  const used = new Set(PROJECTS.flatMap((p) => categoriesOf(p)));
+  const chips = Object.keys(EN_PAGE.labels)
+    .filter((k) => k.startsWith('filters.'))
+    .map((k) => k.slice('filters.'.length))
+    .filter((c) => c !== 'all');
+  for (const c of chips) {
+    assert.ok(used.has(c), `filter chip "${c}" matches no project`);
   }
 });
 

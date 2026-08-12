@@ -578,6 +578,19 @@ a { color: inherit; text-decoration: none; }
   margin: 0 auto;
   padding: 90px 24px;
 }
+/* Scroll-reveal offsets are transforms, and a transform still counts toward
+   the page's scrollable area: the not-yet-revealed fade-left cards sit 40px
+   to the right of where they will land, which made the whole page pannable
+   sideways until the visitor scrolled past them (and the transform went to
+   none). Clipping the sections horizontally removes that at the source, for
+   every reveal direction, present and future. clip (not hidden) leaves the
+   vertical axis alone, so nothing here becomes a scroll container, and the
+   margin keeps the card hover shadows from being cut at the section edge. */
+.section,
+.hero {
+  overflow-x: clip;
+  overflow-clip-margin: 16px;
+}
 .section-head { text-align: center; margin-bottom: 52px; }
 .section-kicker {
   display: inline-block;
@@ -754,9 +767,23 @@ a { color: inherit; text-decoration: none; }
    (the lightbox opens from there); flanking slides are click-to-advance. */
 .carousel-slide:not([data-state="active"]) .card-zoom { display: none; }
 
-.card-category {
+/* One badge per category the project declares, stacked in a row over the
+   top-left of the image and wrapping if a project carries several. */
+.card-categories {
   position: absolute;
   top: 14px; left: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: calc(100% - 28px);
+  transition: opacity 0.3s var(--ease);
+}
+/* The badges step aside on hover: the pointer is on the card to look at the
+   image (and the zoom badge is fading in at the same moment), so the labels
+   have done their job. Opacity only — nothing that moves, so it is safe on
+   the carousel slides too, whose transform is their position. */
+.project-card:hover .card-categories { opacity: 0; }
+.card-category {
   padding: 5px 14px;
   border-radius: 999px;
   font-size: 0.75rem;
@@ -766,6 +793,7 @@ a { color: inherit; text-decoration: none; }
   color: #fff;
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: opacity 0.3s var(--ease);
 }
 
 .card-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
@@ -1738,6 +1766,11 @@ a { color: inherit; text-decoration: none; }
      does it (see .timeline-list.is-compact), and phones default to compact,
      so the result is the same — except a phone visitor can now switch the
      descriptions back on. */
+  /* One column here, so the alternating left/right entrance has nothing to
+     alternate between; they come up from below like everything else. */
+  [data-reveal="fade-left"],
+  [data-reveal="fade-right"] { transform: translateY(30px); }
+
   .timeline-list::before { left: 8px; transform: none; }
   .timeline-item,
   .timeline-item:nth-child(even) {

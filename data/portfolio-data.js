@@ -4,11 +4,18 @@
    Imported by script.js (ES module).
    ============================================================ */
 
+/* A project's `category` is either one key or an array of them — a full-stack
+   project is a game AND full stack, and should turn up under both filters.
+   The first entry is the primary one: that is what the card badge shows.
+   Everything that reads categories goes through this helper. */
+export const categoriesOf = (project) =>
+  (Array.isArray(project.category) ? project.category : [project.category]);
+
 export const PROJECTS = [
   {
     id: 'agx-ai-translation-helper',
     name: 'AGX AI Translation Helper',
-    category: 'app',
+    category: 'tool',
     image: 'assets/images/projects/large/agx-ai-translation-helper.jpg',
     tech: ['VS Code', 'Gemini AI', 'TypeScript', 'i18next'],
     links: {
@@ -27,7 +34,7 @@ export const PROJECTS = [
   {
     id: 'ai4test',
     name: 'AI4Test',
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/ai4test.jpg',
     tech: ['React', 'TypeScript', 'Jest', 'i18next'],
     links: { demo: 'https://mobiledevice.cloud/order/ai4test?lang=en' },
@@ -49,17 +56,17 @@ export const PROJECTS = [
     links: { repo: 'https://github.com/ViktorBozzay/Arrganizer', demo: 'https://viktorbozzay.github.io/ArrganizerDocs/', npm: 'https://www.npmjs.com/package/arrganizer' },
     desc: {
       en: { functional: 'A chainable data-transformation library that makes working with arrays of objects feel like using a spreadsheet, group, sort, filter and format in readable chains.', technical: 'Zero-dependency TypeScript library with a fluent API, full operation history with undo/redo, locale-aware formatting via Intl, and end-to-end type safety with generics.' },
-      de: { functional: 'Eine verkettbare Daten-Transformationsbibliothek, die das Arbeiten mit Objekt-Arrays wie mit einer Tabellenkalkulation wirken lässt, gruppieren, sortieren, filtern und formatieren in lesbaren Ketten.', technical: 'Zero-Dependency-TypeScript-Bibliothek mit fluider API, vollständiger Operations-Historie mit Undo/Redo, locale-basierter Formatierung via Intl und durchgängiger Typsicherheit mit Generics.' },
-      hu: { functional: 'Láncolható adat-átalakító könyvtár, amely az objektumtömbökkel végzett munkát táblázatkezelőszerűvé teszi, csoportosítás, rendezés, szűrés és formázás olvasható láncokban.', technical: 'Függőségmentes TypeScript könyvtár folyékony API-val, teljes művelet-előzménnyel undo/redo funkcióval, Intl alapú lokalizált formázással és generikusokkal elért teljes típusbiztonsággal.' },
-      fr: { functional: 'Une bibliothèque de transformation de données enchaînable qui rend le travail sur les tableaux d\u2019objets aussi fluide qu\u2019un tableur, grouper, trier, filtrer et formater en chaînes lisibles.', technical: 'Bibliothèque TypeScript sans dépendance avec API fluide, historique complet des opérations avec annuler/rétablir, formatage localisé via Intl et sécurité de typage de bout en bout grâce aux génériques.' },
-      it: { functional: 'Una libreria di trasformazione dati incatenabile che rende il lavoro con array di oggetti simile a un foglio di calcolo, raggruppa, ordina, filtra e formatta in catene leggibili.', technical: 'Libreria TypeScript a zero dipendenze con API fluida, cronologia completa delle operazioni con annulla/ripeti, formattazione localizzata via Intl e type-safety totale con i generici.' },
-      es: { functional: 'Una librería de transformación de datos encadenable que hace que trabajar con arrays de objetos parezca usar una hoja de cálculo, agrupa, ordena, filtra y formatea en cadenas legibles.', technical: 'Librería TypeScript sin dependencias con API fluida, historial completo de operaciones con deshacer/rehacer, formato localizado vía Intl y seguridad de tipos integral con genéricos.' }
+      de: { functional: 'Eine verkettbare Daten-Transformationsbibliothek, die das Arbeiten mit Objekt-Arrays wie mit einer Tabellenkalkulation wirken lässt, gruppieren, sortieren, filtern und formatieren in lesbaren Ketten.', technical: 'Zero-Dependency-TypeScript-Bibliothek mit verkettbarer Fluent-API, vollständiger Operations-Historie mit Undo/Redo, locale-basierter Formatierung via Intl und durchgängiger Typsicherheit mit Generics.' },
+      hu: { functional: 'Láncolható adat-átalakító könyvtár, amely az objektumtömbökkel végzett munkát táblázatkezelőszerűvé teszi, csoportosítás, rendezés, szűrés és formázás olvasható láncokban.', technical: 'Függőségmentes TypeScript könyvtár láncolható (fluent) API-val, teljes műveleti előzménnyel, visszavonás és újra funkcióval, Intl alapú lokalizált formázással és generikusokkal elért teljes típusbiztonsággal.' },
+      fr: { functional: 'Une bibliothèque de transformation de données enchaînable qui rend le travail sur les tableaux d\u2019objets aussi fluide qu\u2019un tableur, grouper, trier, filtrer et formater en chaînes lisibles.', technical: 'Bibliothèque TypeScript sans dépendance, à l’API enchaînable (fluent), historique complet des opérations avec annuler/rétablir, formatage localisé via Intl et sécurité de typage de bout en bout grâce aux génériques.' },
+      it: { functional: 'Una libreria di trasformazione dati incatenabile che rende il lavoro con array di oggetti simile a un foglio di calcolo, raggruppa, ordina, filtra e formatta in catene leggibili.', technical: 'Libreria TypeScript a zero dipendenze con API incatenabile (fluent), cronologia completa delle operazioni con annulla/ripeti, formattazione localizzata via Intl e type-safety totale con i generici.' },
+      es: { functional: 'Una librería de transformación de datos encadenable que hace que trabajar con arrays de objetos parezca usar una hoja de cálculo, agrupa, ordena, filtra y formatea en cadenas legibles.', technical: 'Librería TypeScript sin dependencias con API encadenable (fluent), historial completo de operaciones con deshacer/rehacer, formato localizado vía Intl y seguridad de tipos integral con genéricos.' }
     }
   },
   {
     id: 'auditorium',
     name: 'Auditorium',
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/auditorium-og.jpg',
     tech: ['Vanilla JS', 'ES Modules', 'Vite', 'Vitest'],
     links: { repo: 'https://github.com/exphoenee/auditorium', demo: 'https://exphoenee.github.io/auditorium/' },
@@ -75,7 +82,7 @@ export const PROJECTS = [
   {
     id: 'ba-team',
     name: 'BA Team',
-    category: 'app',
+    category: 'tool',
     image: 'assets/images/projects/large/bateam.jpg',
     tech: ['AI Agents', 'Python'],
     links: { repo: 'https://github.com/exphoenee/ba-team-dev', demo: 'https://exphoenee.github.io/ba-team-docs/' },
@@ -124,7 +131,7 @@ export const PROJECTS = [
     id: 'cv',
     name: 'CV, Viktor Bozzay',
     nameL10n: { hu: 'CV, Bozzay Viktor' },
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/cv.jpg',
     tech: ['Vanilla JS', 'ES Modules', 'Formspree', 'Calendar API'],
     links: { repo: 'https://github.com/exphoenee/CV', demo: 'https://viktor.bozzay.online' },
@@ -156,7 +163,7 @@ export const PROJECTS = [
   {
     id: 'facts-login',
     name: 'FACTS',
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/facts.jpg',
     tech: ['React', 'TypeScript', 'Monorepo', 'Vitest', 'PNPM', 'Specification driven development'],
     links: { demo: 'https://www.factslogin.com' },
@@ -172,7 +179,7 @@ export const PROJECTS = [
   {
     id: 'driver-app',
     name: 'FACTS Driver App',
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/driver.jpg',
     tech: ['React', 'TypeScript', 'HERE Maps', 'Monorepo', 'Vitest', 'PNPM', 'Specification driven development'],
     links: { demo: 'https://routes.factslogin.com' },
@@ -188,7 +195,7 @@ export const PROJECTS = [
   {
     id: 'fundmypitch',
     name: 'FundMyPitch',
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/fundmypitch.jpg',
     tech: ['React', 'NextJS', 'TypeScript', 'Laravel', 'PHP'],
     links: { demo: 'https://www.fundmypitch.com' },
@@ -236,7 +243,7 @@ export const PROJECTS = [
   {
     id: 'space-travel',
     name: 'Realtime Space Travel',
-    category: 'game',
+    category: ['game', 'fullstack'],
     image: 'assets/images/projects/large/space-travel.jpg',
     tech: ['React', 'TypeScript', 'Firebase', 'TensorFlow.js', 'Stripe'],
     links: { repo: 'https://github.com/exphoenee/realtime_space_travel', demo: 'https://realtimespacetravel-e74e3.web.app' },
@@ -284,39 +291,39 @@ export const PROJECTS = [
   {
     id: 'scolia-darts',
     name: 'Scolia Darts',
-    category: 'game',
+    category: ['game', 'fullstack', 'webapp'],
     image: 'assets/images/projects/large/scolia.jpg',
     tech: ['JavaScript', 'Redux', 'Jest', 'i18next', 'WebSocket'],
     links: { demo: 'https://game.scoliadarts.com' },
     desc: {
-      en: { functional: 'The web client of the Scolia automatic darts scoring system: X01, Cricket, Around the Clock and more game modes, an online lobby, tournaments, bot opponents and detailed statistics, on any device.', technical: 'A browser-based real-time interface that connects to Scolia hardware, displaying scores and running games on smartphones, tablets, PCs and smart TVs with millimeter-accurate throw tracking.' },
-      de: { functional: 'Der Web-Client des automatischen Dart-Scoring-Systems Scolia: X01, Cricket, Around the Clock und weitere Spielmodi, Online-Lobby, Turniere, Bot-Gegner und detaillierte Statistiken, auf jedem Gerät.', technical: 'Eine browserbasierte Echtzeit-Oberfläche, die sich mit der Scolia-Hardware verbindet, Punkte anzeigt und Spiele auf Smartphones, Tablets, PCs und Smart-TVs mit millimetergenauem Wurftracking ausführt.' },
-      hu: { functional: 'A Scolia automatikus dartspontozó-rendszer webes kliensének a játékfelülete: X01, Cricket, Around the Clock és további játékmódok, online lobby, versenyek, bot-ellenfelek és részletes statisztikák, bármilyen eszközön.', technical: 'Böngészőalapú, valós idejű felület, amely a Scolia-hardverhez kapcsolódva pontszámokat jelenít meg és játékokat futtat telefonon, tableten, PC-n és smart TV-n, milliméter-pontos dobáskövetéssel.' },
-      fr: { functional: 'Le client web du système de scoring automatique de fléchettes Scolia : X01, Cricket, Around the Clock et d\u2019autres modes de jeu, un lobby en ligne, des tournois, des adversaires bots et des statistiques détaillées, sur n\u2019importe quel appareil.', technical: 'Une interface temps réel basée sur navigateur qui se connecte au matériel Scolia, affiche les scores et lance des parties sur smartphones, tablettes, PC et TV connectées avec un suivi des lancers au millimètre près.' },
-      it: { functional: 'Il client web del sistema di punteggio automatico per freccette Scolia: X01, Cricket, Around the Clock e altre modalità di gioco, lobby online, tornei, avversari bot e statistiche dettagliate, su qualsiasi dispositivo.', technical: 'Un\u2019interfaccia in tempo reale basata su browser che si collega all\u2019hardware Scolia, mostra i punteggi e gestisce le partite su smartphone, tablet, PC e smart TV con rilevamento dei lanci millimetrico.' },
-      es: { functional: 'El cliente web del sistema de puntuación automática de dardos Scolia: X01, Cricket, Around the Clock y más modos de juego, lobby en línea, torneos, oponentes bot y estadísticas detalladas, en cualquier dispositivo.', technical: 'Una interfaz en tiempo real basada en navegador que se conecta al hardware de Scolia, muestra las puntuaciones y ejecuta partidas en smartphones, tablets, PC y smart TVs con seguimiento de lanzamientos de precisión milimétrica.' }
+      en: { functional: 'The web client of the Scolia automatic darts scoring system: X01, Cricket, Around the Clock and more game modes, an online lobby, tournaments, bot opponents and detailed statistics. A browser-based real-time interface that connects to Scolia hardware and runs games with millimeter-accurate throw tracking on smartphones, tablets, PCs and smart TVs.', technical: 'JavaScript with React, Redux and Redux Saga on the front end; Redis, NestJS and MongoDB on the back end. This is the project where I first took on substantial back-end work as well.' },
+      de: { functional: 'Der Web-Client des automatischen Dart-Scoring-Systems Scolia: X01, Cricket, Around the Clock und weitere Spielmodi, Online-Lobby, Turniere, Bot-Gegner und detaillierte Statistiken. Eine browserbasierte Echtzeit-Oberfläche, die sich mit der Scolia-Hardware verbindet und Spiele mit millimetergenauem Wurftracking auf Smartphones, Tablets, PCs und Smart-TVs ausführt.', technical: 'JavaScript mit React, Redux und Redux Saga im Frontend; Redis, NestJS und MongoDB im Backend. Hier habe ich zum ersten Mal auch im Backend größere Aufgaben übernommen.' },
+      hu: { functional: 'A Scolia automatikus dartspontozó-rendszer webes kliensének a játékfelülete: X01, Cricket, Around the Clock és további játékmódok, online lobby, versenyek, bot-ellenfelek és részletes statisztikák. Böngészőalapú, valós idejű felület, amely a Scolia-hardverhez kapcsolódva, milliméter-pontos dobáskövetéssel jeleníti meg a pontszámokat és futtatja a játékokat telefonon, tableten, PC-n és smart TV-n.', technical: 'JavaScript, React, Redux és Redux Saga a frontenden, a backend oldalon Redis, NestJS és MongoDB. Itt volt szerencsém először a backend oldalon is komolyabb feladatokat megoldani.' },
+      fr: { functional: 'Le client web du système de scoring automatique de fléchettes Scolia : X01, Cricket, Around the Clock et d\u2019autres modes de jeu, un lobby en ligne, des tournois, des adversaires bots et des statistiques détaillées. Une interface temps réel basée sur navigateur qui se connecte au matériel Scolia et lance des parties avec un suivi des lancers au millimètre près, sur smartphones, tablettes, PC et TV connectées.', technical: 'JavaScript avec React, Redux et Redux Saga côté front ; Redis, NestJS et MongoDB côté back. C\u2019est ici que j\u2019ai pris en charge pour la première fois des tâches d\u2019envergure côté back-end.' },
+      it: { functional: 'Il client web del sistema di punteggio automatico per freccette Scolia: X01, Cricket, Around the Clock e altre modalità di gioco, lobby online, tornei, avversari bot e statistiche dettagliate. Un\u2019interfaccia in tempo reale basata su browser che si collega all\u2019hardware Scolia e gestisce le partite con rilevamento dei lanci millimetrico su smartphone, tablet, PC e smart TV.', technical: 'JavaScript con React, Redux e Redux Saga sul front-end; Redis, NestJS e MongoDB sul back-end. È il progetto in cui ho affrontato per la prima volta compiti rilevanti anche lato back-end.' },
+      es: { functional: 'El cliente web del sistema de puntuación automática de dardos Scolia: X01, Cricket, Around the Clock y más modos de juego, lobby en línea, torneos, oponentes bot y estadísticas detalladas. Una interfaz en tiempo real basada en navegador que se conecta al hardware de Scolia y ejecuta partidas con seguimiento de lanzamientos de precisión milimétrica en smartphones, tablets, PC y smart TVs.', technical: 'JavaScript con React, Redux y Redux Saga en el front-end; Redis, NestJS y MongoDB en el back-end. Fue el proyecto en el que asumí por primera vez tareas de peso también en el back-end.' }
     }
   },
   {
     id: 'safesy-erp',
     name: 'Safesy ERP',
-    category: 'app',
+    category: ['webapp', 'fullstack'],
     image: 'assets/images/projects/large/safesy.jpg',
-    tech: ['SvelteKit', 'TypeScript', 'Vitest', 'Storybook', 'Component driven development'],
+    tech: ['SvelteKit', 'TypeScript', 'Express', 'Vitest', 'Storybook', 'Component driven development'],
     links: {},
     desc: {
-      en: { functional: 'An enterprise resource planning platform where I contributed to reusable UI foundations, feature implementation and a consistent application experience for complex business workflows.', technical: 'Built with SvelteKit and TypeScript. I designed and implemented a reusable UI component library, built interactive Storybook documentation and established component-driven patterns that improved maintainability across the application.' },
-      de: { functional: 'Eine Enterprise-Resource-Planning-Plattform, bei der ich an wiederverwendbaren UI-Grundlagen, Feature-Implementierung und einer konsistenten Anwendungserfahrung für komplexe Geschäftsprozesse mitgewirkt habe.', technical: 'Gebaut mit SvelteKit und TypeScript. Ich entwarf und implementierte eine wiederverwendbare UI-Komponentenbibliothek, erstellte interaktive Storybook-Dokumentation und etablierte komponentengetriebene Muster, die die Wartbarkeit der Anwendung verbesserten.' },
-      hu: { functional: 'Vállalati erőforrás-tervező platform, amelyben újrafelhasználható UI-alapokon, feature-fejlesztésen és komplex üzleti folyamatokhoz illeszkedő, egységes alkalmazásélményen dolgoztam.', technical: 'SvelteKit és TypeScript alapokra épült. Újrafelhasználható UI komponenskönyvtárat terveztem és implementáltam, interaktív Storybook dokumentációt készítettem, és komponensvezérelt mintákat vezettem be a jobb karbantarthatóság érdekében.' },
-      fr: { functional: 'Une plateforme ERP d’entreprise à laquelle j’ai contribué en créant des fondations UI réutilisables, en implémentant des fonctionnalités et en renforçant une expérience applicative cohérente pour des workflows métier complexes.', technical: 'Construite avec SvelteKit et TypeScript. J’ai conçu et implémenté une bibliothèque de composants UI réutilisables, créé une documentation Storybook interactive et établi des patterns orientés composants pour améliorer la maintenabilité de l’application.' },
-      it: { functional: 'Una piattaforma ERP aziendale a cui ho contribuito creando basi UI riutilizzabili, implementando funzionalità e rendendo coerente l’esperienza applicativa per workflow aziendali complessi.', technical: 'Realizzata con SvelteKit e TypeScript. Ho progettato e implementato una libreria di componenti UI riutilizzabili, creato documentazione Storybook interattiva e introdotto pattern component-driven per migliorare la manutenibilità dell’applicazione.' },
-      es: { functional: 'Una plataforma ERP empresarial en la que contribuí a bases de UI reutilizables, implementación de funcionalidades y una experiencia de aplicación coherente para flujos de negocio complejos.', technical: 'Construida con SvelteKit y TypeScript. Diseñé e implementé una biblioteca reutilizable de componentes UI, creé documentación interactiva en Storybook y establecí patrones component-driven que mejoraron la mantenibilidad de la aplicación.' }
+      en: { functional: 'An enterprise resource planning platform where I contributed to reusable UI foundations, feature implementation and a consistent application experience for complex business workflows.', technical: 'Built with SvelteKit and TypeScript. I designed and implemented a reusable UI component library, built interactive Storybook documentation and established component-driven patterns that improved maintainability across the application. Here too I had the chance to work on the back end, on the Express-based services.' },
+      de: { functional: 'Eine Enterprise-Resource-Planning-Plattform, bei der ich an wiederverwendbaren UI-Grundlagen, Feature-Implementierung und einer konsistenten Anwendungserfahrung für komplexe Geschäftsprozesse mitgewirkt habe.', technical: 'Gebaut mit SvelteKit und TypeScript. Ich entwarf und implementierte eine wiederverwendbare UI-Komponentenbibliothek, erstellte interaktive Storybook-Dokumentation und etablierte komponentengetriebene Muster, die die Wartbarkeit der Anwendung verbesserten. Auch hier konnte ich am Backend mitarbeiten, an den Express-basierten Services.' },
+      hu: { functional: 'Vállalati erőforrás-tervező platform, amelyben újrafelhasználható UI-alapokon, feature-fejlesztésen és komplex üzleti folyamatokhoz illeszkedő, egységes alkalmazásélményen dolgoztam.', technical: 'SvelteKit és TypeScript alapokra épült. Újrafelhasználható UI komponenskönyvtárat terveztem és implementáltam, interaktív Storybook dokumentációt készítettem, és komponensvezérelt mintákat vezettem be a jobb karbantarthatóság érdekében. Itt is volt szerencsém az Express alapú backenden fejlesztéseket véghezvinni.' },
+      fr: { functional: 'Une plateforme ERP d’entreprise à laquelle j’ai contribué en créant des fondations UI réutilisables, en implémentant des fonctionnalités et en renforçant une expérience applicative cohérente pour des workflows métier complexes.', technical: 'Construite avec SvelteKit et TypeScript. J’ai conçu et implémenté une bibliothèque de composants UI réutilisables, créé une documentation Storybook interactive et établi des patterns orientés composants pour améliorer la maintenabilité de l’application. Ici aussi, j’ai pu travailler côté back-end, sur les services basés sur Express.' },
+      it: { functional: 'Una piattaforma ERP aziendale a cui ho contribuito creando basi UI riutilizzabili, implementando funzionalità e rendendo coerente l’esperienza applicativa per workflow aziendali complessi.', technical: 'Realizzata con SvelteKit e TypeScript. Ho progettato e implementato una libreria di componenti UI riutilizzabili, creato documentazione Storybook interattiva e introdotto pattern component-driven per migliorare la manutenibilità dell’applicazione. Anche qui ho avuto modo di lavorare sul back-end, sui servizi basati su Express.' },
+      es: { functional: 'Una plataforma ERP empresarial en la que contribuí a bases de UI reutilizables, implementación de funcionalidades y una experiencia de aplicación coherente para flujos de negocio complejos.', technical: 'Construida con SvelteKit y TypeScript. Diseñé e implementé una biblioteca reutilizable de componentes UI, creé documentación interactiva en Storybook y establecí patrones component-driven que mejoraron la mantenibilidad de la aplicación. Aquí también pude trabajar en el back-end, en los servicios basados en Express.' }
     }
   },
   {
     id: 'smartedu',
     name: 'SmartEdu',
-    category: 'app',
+    category: 'webapp',
     image: 'assets/images/projects/large/smartedu.jpg',
     tech: ['HTML', 'CSS', 'JavaScript'],
     links: { demo: 'https://smartedu.hu' },
@@ -348,7 +355,7 @@ export const PROJECTS = [
   {
     id: 'szelacoaching',
     name: 'Szela Coaching',
-    category: 'website',
+    category: ['website', 'fullstack'],
     image: 'assets/images/projects/large/szelacoaching.jpg',
     tech: ['PHP', 'MySQL', 'MVC', 'Bootstrap'],
     links: { demo: 'https://szelacoaching.hu' },
