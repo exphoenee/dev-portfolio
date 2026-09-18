@@ -145,6 +145,22 @@ export const PROJECTS = [
     }
   },
   {
+    id: 'dev-pain-webshop',
+    name: 'Dev Pain Webshop',
+    category: ['webapp', 'fullstack'],
+    image: 'assets/images/projects/large/dev-pain-webshop.jpg',
+    tech: ['SvelteKit', 'TypeScript', 'Tailwind', 'Cloudflare', 'Stripe', 'Better Auth', 'Paraglide JS'],
+    links: { demo: 'https://dev-pain.store' },
+    desc: {
+      en: { functional: 'A digital music webshop for satirical metal albums about software development pain. Preview tracks, buy individual songs or full albums, download purchases. Guest checkout with one-time download, registered users get unlimited re-downloads.', technical: 'SvelteKit + TypeScript on Cloudflare with D1 (SQLite) database and R2 object storage. Stripe Checkout for payments, Better Auth for authentication, Paraglide JS for 6-language i18n, shadcn-svelte UI components. CI/CD via GitHub Actions with wrangler deploy.' },
+      de: { functional: 'Ein digitaler Musik-Webshop für satirische Metal-Alben über Softwareentwicklungs-Schmerzen. Titel anhören, einzelne Songs oder ganze Alben kaufen, Käufe herunterladen. Gast-Checkout mit einmaligem Download, registrierte Nutzer erhalten unbegrenzte Re-Downloads.', technical: 'SvelteKit + TypeScript auf Cloudflare mit D1 (SQLite) Datenbank und R2 Objektspeicher. Stripe Checkout für Zahlungen, Better Auth für Authentifizierung, Paraglide JS für 6-sprachiges i18n, shadcn-svelte UI-Komponenten. CI/CD via GitHub Actions mit wrangler Deploy.' },
+      hu: { functional: 'Egy digitális zenei webshop szatirikus metálalbumokkal a szoftverfejlesztés fájdalmairól. Előhallgatás, számok vagy teljes albumok vásárlása, letöltés. Vendégvásárlás egyszeri letöltéssel, regisztrált felhasználóknak korlátlan újraletöltés.', technical: 'SvelteKit + TypeScript Cloudflare-en D1 (SQLite) adatbázissal és R2 objektumtárral. Stripe Checkout a fizetéshez, Better Auth a hitelesítéshez, Paraglide JS a 6-nyelvű i18n-hez, shadcn-svelte UI komponensek. CI/CD GitHub Actions-sel és wrangler deploy-val.' },
+      fr: { functional: 'Une boutique en ligne de musique numérique pour des albums metal satiriques sur les douleurs du développement logiciel. Écouter des extraits, acheter des titres individuels ou des albums complets, télécharger les achats. Checkout invité avec téléchargement unique, les utilisateurs inscrits bénéficient de re-téléchargements illimités.', technical: 'SvelteKit + TypeScript sur Cloudflare avec base de données D1 (SQLite) et stockage objet R2. Stripe Checkout pour les paiements, Better Auth pour l\'authentification, Paraglide JS pour l\'i18n en 6 langues, composants UI shadcn-svelte. CI/CD via GitHub Actions avec déploiement wrangler.' },
+      it: { functional: 'Un webshop di musica digitale per album metal satirici sui dolori dello sviluppo software. Anteprima brani, acquisto singoli o album completi, download acquisti. Checkout ospite con download singolo, utenti registrati hanno re-download illimitati.', technical: 'SvelteKit + TypeScript su Cloudflare con database D1 (SQLite) e object storage R2. Stripe Checkout per pagamenti, Better Auth per autenticazione, Paraglide JS per i18n 6 lingue, componenti UI shadcn-svelte. CI/CD via GitHub Actions con deploy wrangler.' },
+      es: { functional: 'Una tienda web de música digital para álbumes de metal satíricos sobre los dolores del desarrollo de software. Previsualizar pistas, comprar canciones individuales o álbumes completos, descargar compras. Checkout de invitado con descarga única, usuarios registrados obtienen re-descargas ilimitadas.', technical: 'SvelteKit + TypeScript en Cloudflare con base de datos D1 (SQLite) y almacenamiento de objetos R2. Stripe Checkout para pagos, Better Auth para autenticación, Paraglide JS para i18n en 6 idiomas, componentes UI shadcn-svelte. CI/CD via GitHub Actions con deploy wrangler.' }
+    }
+  },
+  {
     id: 'domelemjs',
     name: 'DOMelemJS',
     category: 'library',
@@ -350,6 +366,22 @@ export const PROJECTS = [
       fr: { functional: 'Une API REST pour résoudre et générer des grilles de Sudoku avec un algorithme de backtracking, documentation Swagger en direct et limitation de débit.', technical: 'Node.js + Express + TypeScript, solveur backtracking et générateur de grilles, validation Zod, logging pino, UI swagger-jsdoc et suite de tests Jest.' },
       it: { functional: 'Una REST API per risolvere e generare griglie di Sudoku usando un algoritmo di backtracking, con documentazione Swagger live e rate limiting.', technical: 'Node.js + Express + TypeScript, solver backtracking e generatore di griglie, validazione Zod, logging pino, UI swagger-jsdoc e suite di test Jest.' },
       es: { functional: 'Una API REST para resolver y generar tableros de Sudoku con un algoritmo de backtracking, con documentación Swagger en vivo y limitación de tasa.', technical: 'Node.js + Express + TypeScript, solver de backtracking y generador de tableros, validación Zod, logging con pino, UI swagger-jsdoc y suite de pruebas Jest.' }
+    }
+  },
+  {
+    id: 'dev-pain-webshop',
+    name: 'Dev Pain Webshop',
+    category: ['webapp', 'fullstack'],
+    image: 'assets/images/projects/large/dev-pain-webshop.jpg',
+    tech: ['SvelteKit', 'TypeScript', 'Tailwind', 'Cloudflare', 'Stripe', 'Better Auth', 'Paraglide JS'],
+    links: { demo: 'https://dev-pain.store' },
+    desc: {
+      en: { functional: 'A digital music webshop for satirical metal albums about software development pain. Preview tracks, buy individual songs or full albums, download purchases. Guest checkout with one-time download, registered users get unlimited re-downloads.', technical: 'SvelteKit 5 + TypeScript on Cloudflare Pages with D1 (SQLite) database and R2 object storage. Stripe Checkout for payments, Better Auth for authentication, Paraglide JS for 6-language i18n, shadcn-svelte UI components. CI/CD via GitHub Actions with wrangler deploy.' },
+      de: { functional: 'Ein digitaler Musik-Webshop für satirische Metal-Alben über Softwareentwicklungs-Schmerzen. Titel anhören, einzelne Songs oder ganze Alben kaufen, Käufe herunterladen. Gast-Checkout mit einmaligem Download, registrierte Nutzer erhalten unbegrenzte Re-Downloads.', technical: 'SvelteKit 5 + TypeScript auf Cloudflare Pages mit D1 (SQLite) Datenbank und R2 Objektspeicher. Stripe Checkout für Zahlungen, Better Auth für Authentifizierung, Paraglide JS für 6-sprachiges i18n, shadcn-svelte UI-Komponenten. CI/CD via GitHub Actions mit wrangler Deploy.' },
+      hu: { functional: 'Egy digitális zenei webshop szatirikus metálalbumokkal a szoftverfejlesztés fájdalmairól. Előhallgatás, számok vagy teljes albumok vásárlása, letöltés. Vendégvásárlás egyszeri letöltéssel, regisztrált felhasználóknak korlátlan újraletöltés.', technical: 'SvelteKit 5 + TypeScript Cloudflare Pages-en D1 (SQLite) adatbázissal és R2 objektumtárral. Stripe Checkout a fizetéshez, Better Auth a hitelesítéshez, Paraglide JS a 6-nyelvű i18n-hez, shadcn-svelte UI komponensek. CI/CD GitHub Actions-sel és wrangler deploy-val.' },
+      fr: { functional: 'Une boutique en ligne de musique numérique pour des albums metal satiriques sur les douleurs du développement logiciel. Écouter des extraits, acheter des titres individuels ou des albums complets, télécharger les achats. Checkout invité avec téléchargement unique, les utilisateurs inscrits bénéficient de re-téléchargements illimités.', technical: 'SvelteKit 5 + TypeScript sur Cloudflare Pages avec base de données D1 (SQLite) et stockage objet R2. Stripe Checkout pour les paiements, Better Auth pour l\'authentification, Paraglide JS pour l\'i18n en 6 langues, composants UI shadcn-svelte. CI/CD via GitHub Actions avec déploiement wrangler.' },
+      it: { functional: 'Un webshop di musica digitale per album metal satirici sui dolori dello sviluppo software. Anteprima brani, acquisto singoli o album completi, download acquisti. Checkout ospite con download singolo, utenti registrati hanno re-download illimitati.', technical: 'SvelteKit 5 + TypeScript su Cloudflare Pages con database D1 (SQLite) e object storage R2. Stripe Checkout per pagamenti, Better Auth per autenticazione, Paraglide JS per i18n 6 lingue, componenti UI shadcn-svelte. CI/CD via GitHub Actions con deploy wrangler.' },
+      es: { functional: 'Una tienda web de música digital para álbumes de metal satíricos sobre los dolores del desarrollo de software. Previsualizar pistas, comprar canciones individuales o álbumes completos, descargar compras. Checkout de invitado con descarga única, usuarios registrados obtienen re-descargas ilimitadas.', technical: 'SvelteKit 5 + TypeScript en Cloudflare Pages con base de datos D1 (SQLite) y almacenamiento de objetos R2. Stripe Checkout para pagos, Better Auth para autenticación, Paraglide JS para i18n en 6 idiomas, componentes UI shadcn-svelte. CI/CD via GitHub Actions con deploy wrangler.' }
     }
   },
   {

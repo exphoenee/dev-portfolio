@@ -61,6 +61,7 @@ export const TECH_ICONS = {
   Svelte: 'svelte.svg',
   SvelteKit: 'svelte.svg',
   Swagger: 'swagger.svg',
+  Tailwind: 'tailwind.svg',
   'TensorFlow.js': 'Tensorflow.svg',
   TPL: 'fanuc.png',
   TypeScript: 'typescript.svg',
@@ -71,7 +72,9 @@ export const TECH_ICONS = {
   'VS Code': 'vscode.svg',
   Webpack: 'webpack.svg',
   WebSocket: 'websocket.svg',
-  Zustand: 'zustand.png'
+  Zustand: 'zustand.png',
+  'Better Auth': 'better-auth.svg',
+  'Paraglide JS': 'paraglideNoBg.png'
 };
 
 export function techIconSrc(label) {
