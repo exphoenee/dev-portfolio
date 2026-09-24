@@ -2,7 +2,7 @@
 
 A clean, interactive developer portfolio built with **vanilla HTML, CSS and JavaScript**, no frameworks, no build tools.
 
-**🌐 Live site: [exphoenee.github.io/dev-portfilio](https://exphoenee.github.io/dev-portfilio/)**, hosted on GitHub Pages.
+**🌐 Live site: [exphoenee.github.io/dev-portfolio](https://exphoenee.github.io/dev-portfolio/)**, hosted on GitHub Pages.
 
 ![Portfolio features](assets/images/projects/large/cv.jpg)
 
