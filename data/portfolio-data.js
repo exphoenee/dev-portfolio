@@ -374,7 +374,7 @@ export const PROJECTS = [
     category: ['game', 'webapp'],
     image: 'assets/images/projects/large/sudoku-react.jpg',
     tech: ['React', 'React Router', 'React Bootstrap', 'Axios', 'Framer Motion'],
-    links: { repo: 'https://github.com/exphoenee/my-sudoq-react', demo: 'https://sdq.netlify.app/' },
+    links: { repo: 'https://github.com/exphoenee/my-sudoq-react', demo: 'https://xudoq.netlify.app/' },
     desc: {
       en: { functional: 'An interactive Sudoku game built with React, generate puzzles by difficulty and solve them instantly, all puzzle logic runs on a companion REST API, not in the browser.', technical: 'React + React Router + React Bootstrap, an Axios-based API client and a custom hook for board state, solving and generation fully delegated to the Sudoku Solver API.' },
       de: { functional: 'Ein interaktives Sudoku-Spiel mit React, Rätsel nach Schwierigkeitsgrad generieren und sofort lösen lassen, die gesamte Rätsellogik läuft auf einer begleitenden REST-API, nicht im Browser.', technical: 'React + React Router + React Bootstrap, ein Axios-basierter API-Client und ein Custom Hook für den Spielfeldzustand, Lösen und Generieren vollständig an die Sudoku Solver API ausgelagert.' },

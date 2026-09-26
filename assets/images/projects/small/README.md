@@ -24,4 +24,5 @@ Small thumbnail-sized images, exactly **630 × 330 px (21:11)**. Scaled to 630 p
 | smartedu.jpg | 630 | 330 | 21:11 |
 | space-travel.jpg | 630 | 330 | 21:11 |
 | sudoku-api.jpg | 630 | 330 | 21:11 |
+| sudoku-react.jpg | 630 | 330 | 21:11 |
 | szelacoaching.jpg | 630 | 330 | 21:11 |

@@ -24,4 +24,5 @@ Open Graph–sized images, exactly **1200 × 630 px (40:21)**, the standard og:i
 | smartedu.jpg | 1200 | 630 | 40:21 |
 | space-travel.jpg | 1200 | 630 | 40:21 |
 | sudoku-api.jpg | 1200 | 630 | 40:21 |
+| sudoku-react.jpg | 1200 | 630 | 40:21 |
 | szelacoaching.jpg | 1200 | 630 | 40:21 |
