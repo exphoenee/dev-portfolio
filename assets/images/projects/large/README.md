@@ -24,4 +24,5 @@ Original full-size screenshots and logos used by the projects in `data/portfolio
 | smartedu.jpg | 2848 | 1504 | 89:47 |
 | space-travel.jpg | 1200 | 630 | 40:21 |
 | sudoku-api.jpg | 2848 | 1504 | 89:47 |
+| sudoku-react.jpg | 1733 | 907 | 1733:907 |
 | szelacoaching.jpg | 2848 | 1504 | 89:47 |
