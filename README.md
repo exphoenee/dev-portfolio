@@ -10,7 +10,7 @@ A clean, interactive developer portfolio built with **vanilla HTML, CSS and Java
 
 - 🌗 **Light / Dark mode**, respects your system preference, toggle saved in `localStorage`
 - 🌍 **6 languages**, English, Deutsch, Magyar, Français, Italiano, Español (auto-detected, switchable, and linkable via `?lang=de`)
-- 📦 **21 real projects**, data collected from the actual repositories (e.g. AGX AI Translation Helper, FACTS Driver App, Szela Coaching)
+- 📦 **24 real projects**, data collected from the actual repositories (e.g. AGX AI Translation Helper, FACTS Driver App, XudoQ)
 - 🖼️ **Project illustrations**, logos and screenshots from each project, with an image lightbox
 - 🔀 **Functional / Technical tabs**, every project card switches between a functional and a technical description
 - 🗂️ **Category filters**, Libraries, Games, Apps & Tools, APIs, Websites
@@ -55,7 +55,7 @@ dev-portfilio/
 ├── index.html              ← thin shell; skills & contact are rendered by JS
 ├── .gitignore              ← OS/editor junk, node_modules, backup images
 └── assets/images/
-    ├── projects/        ← project images (21) in small/, large/ and og/ sizes
+    ├── projects/        ← project images (24) in small/, large/ and og/ sizes
     ├── tech/            ← tech icons
     ├── **/backup/       ← full-resolution originals: on disk, git-ignored
     └── favicon.svg
