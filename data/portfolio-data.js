@@ -370,18 +370,19 @@ export const PROJECTS = [
   },
   {
     id: 'sudoku-react',
-    name: 'SudoQ, Sudoku Game',
+    name: 'XudoQ, Sudoku Game',
+    nameL10n: { hu: 'XudoQ, Sudoku játék' },
     category: ['game', 'webapp'],
     image: 'assets/images/projects/large/sudoku-react.jpg',
-    tech: ['React', 'React Router', 'React Bootstrap', 'Axios', 'Framer Motion'],
+    tech: ['React', 'React Bootstrap', 'Axios', 'Framer Motion'],
     links: { repo: 'https://github.com/exphoenee/my-sudoq-react', demo: 'https://xudoq.netlify.app/' },
     desc: {
-      en: { functional: 'An interactive Sudoku game built with React, generate puzzles by difficulty and solve them instantly, all puzzle logic runs on a companion REST API, not in the browser.', technical: 'React + React Router + React Bootstrap, an Axios-based API client and a custom hook for board state, solving and generation fully delegated to the Sudoku Solver API.' },
-      de: { functional: 'Ein interaktives Sudoku-Spiel mit React, Rätsel nach Schwierigkeitsgrad generieren und sofort lösen lassen, die gesamte Rätsellogik läuft auf einer begleitenden REST-API, nicht im Browser.', technical: 'React + React Router + React Bootstrap, ein Axios-basierter API-Client und ein Custom Hook für den Spielfeldzustand, Lösen und Generieren vollständig an die Sudoku Solver API ausgelagert.' },
-      hu: { functional: 'Interaktív Sudoku játék React-tel, nehézség szerint generálhatók a feladványok és azonnal megoldhatók, a teljes feladványlogika egy hozzá tartozó REST API-n fut, nem a böngészőben.', technical: 'React + React Router + React Bootstrap, Axios alapú API kliens és egy egyedi hook a tábla állapotához, a megoldás és a generálás teljes egészében a Sudoku Solver API-ra van bízva.' },
-      fr: { functional: 'Un jeu de Sudoku interactif construit avec React, générez des grilles par niveau de difficulté et résolvez-les instantanément, toute la logique du puzzle s’exécute sur une API REST associée, pas dans le navigateur.', technical: 'React + React Router + React Bootstrap, un client API basé sur Axios et un hook personnalisé pour l’état du plateau, résolution et génération entièrement déléguées à la Sudoku Solver API.' },
-      it: { functional: 'Un gioco di Sudoku interattivo costruito con React, genera griglie per livello di difficoltà e risolvile all’istante, tutta la logica del puzzle gira su una REST API dedicata, non nel browser.', technical: 'React + React Router + React Bootstrap, un client API basato su Axios e un hook personalizzato per lo stato della griglia, risoluzione e generazione completamente delegate alla Sudoku Solver API.' },
-      es: { functional: 'Un juego de Sudoku interactivo construido con React, genera tableros por nivel de dificultad y resuélvelos al instante, toda la lógica del rompecabezas se ejecuta en una REST API complementaria, no en el navegador.', technical: 'React + React Router + React Bootstrap, un cliente API basado en Axios y un hook personalizado para el estado del tablero, resolución y generación completamente delegadas a la Sudoku Solver API.' }
+      en: { functional: 'An interactive Sudoku game built with React, generate puzzles by difficulty and solve them instantly, all puzzle logic runs on a companion REST API, not in the browser.', technical: 'React + React Bootstrap, an Axios-based API client and a custom hook for board state, solving and generation fully delegated to the Sudoku Solver API.' },
+      de: { functional: 'Ein interaktives Sudoku-Spiel mit React, Rätsel nach Schwierigkeitsgrad generieren und sofort lösen lassen, die gesamte Rätsellogik läuft auf einer begleitenden REST-API, nicht im Browser.', technical: 'React + React Bootstrap, ein Axios-basierter API-Client und ein Custom Hook für den Spielfeldzustand, Lösen und Generieren vollständig an die Sudoku Solver API ausgelagert.' },
+      hu: { functional: 'Interaktív Sudoku játék React-tel, nehézség szerint generálhatók a feladványok és azonnal megoldhatók, a teljes feladványlogika egy hozzá tartozó REST API-n fut, nem a böngészőben.', technical: 'React + React Bootstrap, Axios alapú API kliens és egy egyedi hook a tábla állapotához, a megoldás és a generálás teljes egészében a Sudoku Solver API-ra van bízva.' },
+      fr: { functional: 'Un jeu de Sudoku interactif construit avec React, générez des grilles par niveau de difficulté et résolvez-les instantanément, toute la logique du puzzle s’exécute sur une API REST associée, pas dans le navigateur.', technical: 'React + React Bootstrap, un client API basé sur Axios et un hook personnalisé pour l’état du plateau, résolution et génération entièrement déléguées à la Sudoku Solver API.' },
+      it: { functional: 'Un gioco di Sudoku interattivo costruito con React, genera griglie per livello di difficoltà e risolvile all’istante, tutta la logica del puzzle gira su una REST API dedicata, non nel browser.', technical: 'React + React Bootstrap, un client API basato su Axios e un hook personalizzato per lo stato della griglia, risoluzione e generazione completamente delegate alla Sudoku Solver API.' },
+      es: { functional: 'Un juego de Sudoku interactivo construido con React, genera tableros por nivel de dificultad y resuélvelos al instante, toda la lógica del rompecabezas se ejecuta en una REST API complementaria, no en el navegador.', technical: 'React + React Bootstrap, un cliente API basado en Axios y un hook personalizado para el estado del tablero, resolución y generación completamente delegadas a la Sudoku Solver API.' }
     }
   },
   {
